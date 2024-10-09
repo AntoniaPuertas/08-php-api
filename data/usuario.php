@@ -32,8 +32,16 @@ class Usuario{
             $errores = new ValidatorException($errors);
             return $errores->getErrors();
         }
+
         $nombreSaneado = $dataSaneados['nombre'];
         $emailSaneado = $dataSaneados['email'];
+
+        // Verificar si el email ya existe
+        $result = $this->db->query("SELECT id FROM usuario WHERE email = ?", [$emailSaneado]);
+        if ($result->num_rows > 0) {
+            return ["message" => "El email ya existe"];
+        }
+
         //lanzamos la consulta
         $this->db->query("INSERT INTO usuario (nombre, email) VALUES(?, ?)", [$nombreSaneado, $emailSaneado]);
 
@@ -52,6 +60,15 @@ class Usuario{
         }
         $nombreSaneado = $dataSaneados['nombre'];
         $emailSaneado = $dataSaneados['email'];
+
+
+         // Verificar si el nuevo email ya existe para otro usuario
+        $result = $this->db->query("SELECT id FROM usuario WHERE email = ? AND id != ?");
+
+        if ($result->num_rows > 0) {
+            return ["message" => "El email ya está en uso por otro usuario"];
+        }
+
         $this->db->query("UPDATE usuario SET nombre = ?, email = ? WHERE id = ?", [$nombreSaneado, $emailSaneado, $idSaneado[0]]);
         return $this->db->query("SELECT ROW_COUNT() as affected")->fetch_assoc()['affected'];
     }
