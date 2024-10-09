@@ -58,7 +58,7 @@ class Usuario{
 
     public function delete($id){
         $idSaneado = Validator::sanear([$id]);
-        $this->db->query("DELETE FROM usuario WHERE id = ?", [$idSaneado]);
+        $this->db->query("DELETE FROM usuario WHERE id = ?", [$idSaneado[0]]);
         return $this->db->query("SELECT ROW_COUNT() as affected")->fetch_assoc()['affected'];
     }
 }
