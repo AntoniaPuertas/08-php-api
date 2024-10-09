@@ -31,6 +31,7 @@ class Database{
         }
         //ejecuta la consulta
         $estamento->execute();
+        
         return $estamento->get_result();
     }
 

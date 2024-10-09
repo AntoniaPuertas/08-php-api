@@ -2,6 +2,7 @@
 
 require_once '../data/usuario.php';
 require_once 'utilidades.php';
+
 /**
  * Establecer el encabezado
  * La respuesta va a ser un objeto tipo JSON
@@ -31,7 +32,7 @@ require_once 'utilidades.php';
 
   //obtener el parámetro id
   $id = Utilidades::getParameterValue($parametros, 'id');
-
+  
   switch($method){
     case 'GET':
         if($id){
@@ -75,15 +76,28 @@ require_once 'utilidades.php';
 
   function setUser($usuario){
     $data = json_decode(file_get_contents('php://input'), true);
-    $id = $usuario->create($data['nombre'], $data['email']);
-    echo json_encode(['id' => $id]);
+    if(isset($data['nombre']) && isset($data['nombre'])){
+      $id = $usuario->create($data['nombre'], $data['email']);
+      echo json_encode(['id' => $id]);
+    }else{
+      echo json_encode(['id' => null]);
+    }
   }
 
   function updateUser($usuario, $id){
-    
+    $data = json_decode(file_get_contents('php://input'), true);
+
+    if(isset($data['nombre']) && isset($data['nombre'])){
+      $affected = $usuario->update($id, $data['nombre'], $data['email']);
+      echo json_encode(['affected' => $affected]); 
+    }else{
+      echo json_encode(['id' => null]);
+    }
+ 
   }
 
   function deleteUser($usuario, $id)
 {
-
+    $affected = $usuario->delete($id);
+    echo json_encode(['affected' => $affected]);
 }

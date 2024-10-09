@@ -39,6 +39,13 @@ class Utilidades{
     }
 
     public static function getParameterValue(array $params, string $paramName) {
+
+        // if(isset($params[$paramName])){
+        //     return $params[$paramName];
+        // }else{
+        //     return null;
+        // }
+
         return $params[$paramName] ?? null;
     }
 }
