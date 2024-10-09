@@ -37,6 +37,5 @@ class Usuario{
         $this->db->query("INSERT INTO usuario (nombre, email) VALUES(?, ?)", [$nombreSaneado, $emailSaneado]);
 
         return $this->db->query("SELECT LAST_INSERT_ID() as id")->fetch_assoc()['id'];
-
     }
 }

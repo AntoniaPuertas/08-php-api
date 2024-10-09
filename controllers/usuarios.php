@@ -1,7 +1,7 @@
 <?php
 
 require_once '../data/usuario.php';
-
+require_once 'utilidades.php';
 /**
  * Establecer el encabezado
  * La respuesta va a ser un objeto tipo JSON
@@ -20,15 +20,17 @@ require_once '../data/usuario.php';
   * -   PUT     Para actualizar datos existentes
   * -   DELETE  Para eliminar
   */
-
+//obtener el método de la petición (GET, POST, PUT, DELETE)
   $method = $_SERVER['REQUEST_METHOD'];
-  //todo mejorar este código (es un poco chapuza)
-$id = null;
-if(isset(explode('=', $_SERVER['REQUEST_URI'])[1])){
-  $request = explode('=', $_SERVER['REQUEST_URI'])[1];
-  $id = isset($request[0]) && is_numeric($request[0]) ? intval($request[0]) : null;
-}
 
+  // Obtener la URI de la petición
+  $uri = $_SERVER['REQUEST_URI'];
+
+  //obtener los parámetros de la petición
+  $parametros = Utilidades::parseUriParameters($uri);
+
+  //obtener el parámetro id
+  $id = Utilidades::getParameterValue($parametros, 'id');
 
   switch($method){
     case 'GET':
@@ -78,7 +80,7 @@ if(isset(explode('=', $_SERVER['REQUEST_URI'])[1])){
   }
 
   function updateUser($usuario, $id){
-
+    
   }
 
   function deleteUser($usuario, $id)
