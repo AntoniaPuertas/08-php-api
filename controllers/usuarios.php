@@ -76,22 +76,22 @@ require_once 'utilidades.php';
 
   function setUser($usuario){
     $data = json_decode(file_get_contents('php://input'), true);
-    if(isset($data['nombre']) && isset($data['nombre'])){
+    if(isset($data['nombre']) && isset($data['email'])){
       $id = $usuario->create($data['nombre'], $data['email']);
       echo json_encode(['id' => $id]);
     }else{
-      echo json_encode(['id' => null]);
+      echo json_encode(['Error' => 'Datos insuficientes']);
     }
   }
 
   function updateUser($usuario, $id){
     $data = json_decode(file_get_contents('php://input'), true);
 
-    if(isset($data['nombre']) && isset($data['nombre'])){
+    if(isset($data['nombre']) && isset($data['email'])){
       $affected = $usuario->update($id, $data['nombre'], $data['email']);
       echo json_encode(['affected' => $affected]); 
     }else{
-      echo json_encode(['id' => null]);
+      echo json_encode(['Error' => 'Datos insuficientes']);
     }
  
   }

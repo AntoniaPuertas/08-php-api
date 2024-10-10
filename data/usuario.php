@@ -39,7 +39,7 @@ class Usuario{
         // Verificar si el email ya existe
         $result = $this->db->query("SELECT id FROM usuario WHERE email = ?", [$emailSaneado]);
         if ($result->num_rows > 0) {
-            return ["message" => "El email ya existe"];
+            return "El email ya existe";
         }
 
         //lanzamos la consulta
@@ -49,8 +49,7 @@ class Usuario{
     }
 
     public function update($id, $nombre, $email){
-        $idSaneado = Validator::sanear([$id]);
-        $data = ['nombre' => $nombre, 'email' => $email];
+        $data = ['id' => $id, 'nombre' => $nombre, 'email' => $email];
         $dataSaneados = Validator::sanear($data);
         $errors = Validator::validar($dataSaneados);
 
@@ -60,16 +59,17 @@ class Usuario{
         }
         $nombreSaneado = $dataSaneados['nombre'];
         $emailSaneado = $dataSaneados['email'];
+        $idSaneado = $dataSaneados['id'];
 
 
          // Verificar si el nuevo email ya existe para otro usuario
-        $result = $this->db->query("SELECT id FROM usuario WHERE email = ? AND id != ?");
+        $result = $this->db->query("SELECT id FROM usuario WHERE email = ? AND id != ?", [$emailSaneado, $idSaneado]);
 
         if ($result->num_rows > 0) {
-            return ["message" => "El email ya está en uso por otro usuario"];
+            return "El email ya está en uso por otro usuario";
         }
 
-        $this->db->query("UPDATE usuario SET nombre = ?, email = ? WHERE id = ?", [$nombreSaneado, $emailSaneado, $idSaneado[0]]);
+        $this->db->query("UPDATE usuario SET nombre = ?, email = ? WHERE id = ?", [$nombreSaneado, $emailSaneado, $idSaneado]);
         return $this->db->query("SELECT ROW_COUNT() as affected")->fetch_assoc()['affected'];
     }
 
