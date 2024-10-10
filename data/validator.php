@@ -33,6 +33,25 @@ class Validator{
         return $errors;
     }
 
+    public static function validarPelicula($data){
+        $errors = [];
 
+        if(!isset($data['titulo']) || empty(trim($data['titulo']))){
+            $errors['titulo'] = "El título es necesario";
+        }elseif(strlen($data['titulo']) < 2 || strlen($data['titulo']) > 50){
+            $errors['titulo'] = "El titulo debe tener entre 2 y 50 caracteres";
+        }
 
+        if(!isset($data['precio']) || empty(trim($data['precio']))){
+            $errors['precio'] = "El precio es necesario";
+        }elseif($data['precio'] < 0){
+            $errors['precio'] = "El precio debe ser mayor que 0";
+        }
+
+        if(!isset($data['id_director']) || empty(trim($data['id_director']))){
+            $errors['id_director'] = "El id del director es necesario";
+        }
+
+        return $errors;
+    }
 }
