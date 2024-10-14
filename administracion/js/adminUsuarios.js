@@ -1,5 +1,5 @@
 const API_URL = 'http://localhost/08-php-api/controllers/usuarios.php';
-
+const errorElement = document.getElementById('createError');
 /**
  * 
  * @param {*} str string
@@ -21,11 +21,16 @@ function limpiarHTML(str){
 }
 
 function validarEmail(email){
+    //todo buscar expresión regular para validar email
     return email;
 }
 
 function validarNombre(nombre){
     return nombre.length >= 2 && nombre.length <= 50;
+}
+
+function esEntero(str) {
+    return /^\d+$/.test(str);
 }
 
 function getUsers(){
@@ -38,19 +43,23 @@ function getUsers(){
                 const sanitizedNombre = limpiarHTML(user.nombre);
                 const sanitizedEmail = limpiarHTML(user.email);
                 tableBody.innerHTML += `
-                    <tr data-id="${user.id}" class="view-mode">
+                    <tr data-id="${user.id}">
                         <td>
                             ${user.id}
                         </td>
                         <td>
-                            <span>${sanitizedNombre}</span>
+                            <span class="listado">${sanitizedNombre}</span>
+                            <input class="edicion" type="text" value="${sanitizedNombre}">
                         </td>
                         <td>
-                            <span>${sanitizedEmail}</span>
+                            <span class="listado">${sanitizedEmail}</span>
+                            <input class="edicion" type="email" value="${sanitizedEmail}">
                         </td>
                         <td>
-                            <button onclick="toggleEditMode(${user.id})">Editar</button>
-                            <button onclick="deleteUser(${user.id})">Eliminar</button>
+                            <button class="listado" onclick="editMode(${user.id})">Editar</button>
+                            <button class="listado" onclick="deleteUser(${user.id})">Eliminar</button>
+                            <button class="edicion" onclick="updateUser(${user.id})">Guardar</button>
+                            <button class="edicion" onclick="cancelEdit(${user.id})">Cancelar</button>
                         </td>
                     </tr>
                 `
@@ -64,7 +73,6 @@ function createUser(event){
     event.preventDefault();
     const nombre = document.getElementById('createNombre').value.trim();
     const email = document.getElementById('createEmail').value.trim();
-    const errorElement = document.getElementById('createError');
 
     if(!validarNombre(nombre)){
         errorElement.textContent = 'El nombre debe tener entre 2 y 50 caracteres.';
@@ -88,18 +96,83 @@ function createUser(event){
     .then(response => response.json())
     .then(result => {
         console.log('Usuario creado: ', result);
+        if(!esEntero(result['id'])){
+            errorElement.textContent = result['id'];
+        }
+        
+        getUsers();
+        event.target.reset();
     })
     .catch(error => {
-        console.log('Error: ', error);
-        errorElement.textContent = 'Error al crear al usuario. Por favor, inténtelo de nuevo';
+        console.log('Error: ', JSON.stringify(error));
     })
 }
 
-function toggleEditMode(id){
-    alert('Modificar Usuario ' + id);
+function updateUser(id){
+    const row = document.querySelector(`tr[data-id="${id}"]`);
+    const newNombre = row.querySelector('td:nth-child(2) input').value.trim();
+    const newEmail = row.querySelector('td:nth-child(3) input').value.trim();
+    
+    if(!validarNombre(newNombre)){
+        alert("El nombre debe tener entre 2 y 50 caracteres.");
+        return;
+    }
+
+    if(!validarEmail(newEmail)){
+        alert('El email no es válido.');
+        return;
+    }
+
+    fetch(`${API_URL}?id=${id}`, {
+        method: 'PUT',
+        headers: {
+            'Content-Type' : 'application/json',
+        },
+        body: JSON.stringify({nombre: newNombre, email: newEmail})
+   }).then(response => response.json())
+     .then(result => {
+        console.log('Usuario actualizado', result);
+        if(!esEntero(result['affected'])){
+            errorElement.innerHTML = result['affected'];
+        }else{
+            getUsers();
+        }
+     })
+     .catch(error => {
+        alert('Error al actualizar al usuario. Por favor, inténtelo de nuevo.');
+     });
+}
+
+function editMode(id){
+    const row = document.querySelector(`tr[data-id="${id}"]`);
+    row.querySelectorAll('.edicion').forEach(ro => {
+        ro.style.display = 'inline-block';
+    })
+    row.querySelectorAll('.listado').forEach(ro => {
+        ro.style.display = 'none';
+    })
+}
+function cancelEdit(id){
+    const row = document.querySelector(`tr[data-id="${id}"]`);
+    row.querySelectorAll('.edicion').forEach(ro => {
+        ro.style.display = 'none';
+    })
+    row.querySelectorAll('.listado').forEach(ro => {
+        ro.style.display = 'inline-block';
+    })
 }
 function deleteUser(id){
-    alert('Eliminar Usuario ' + id);
+    if(confirm('¿Estás seguro de que quieres eliminar este usuario?')){
+       fetch(`${API_URL}?id=${id}`, {
+            method: 'DELETE',
+       })
+       .then(response => response.json())
+       .then(result => {
+            console.log('Usuario eliminado: ', result);
+            getUsers();
+       })
+       .catch(error => console.error('Error: ', error));
+    }
 }
 
 document.getElementById('createForm').addEventListener('submit', createUser);

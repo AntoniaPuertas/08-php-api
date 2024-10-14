@@ -38,17 +38,8 @@ button{
     padding: 5px 10px;
     cursor: pointer;
 }
-.edit-mode input{
-    display: block;
-}
-.edit-mode span{
+.edicion{
     display: none;
-}
-.view-mode input{
-    display: block;
-}
-.view-mode span{
-    display: block;
 }
 .error{
     color: red;
