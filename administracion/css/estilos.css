@@ -1,0 +1,56 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: content-box;
+}
+
+body{
+    font-family: Arial, Helvetica, sans-serif;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+table{
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+th, td{
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+th{
+    background-color: #f2f2f2;
+}
+form{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+input[type="text"], input[type="email"]{
+    padding: 5px;
+    width: cal(100% - 12px);
+    box-sizing: border-box;
+}
+button{
+    padding: 5px 10px;
+    cursor: pointer;
+}
+.edit-mode input{
+    display: block;
+}
+.edit-mode span{
+    display: none;
+}
+.view-mode input{
+    display: block;
+}
+.view-mode span{
+    display: block;
+}
+.error{
+    color: red;
+    margin-top: 5px;
+}
