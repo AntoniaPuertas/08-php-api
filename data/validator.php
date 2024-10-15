@@ -60,6 +60,12 @@ class Validator{
         return $fecha && $fecha->format($formato) === $string;
     }
 
+    public static function esFechaAnteriorHoy($fecha){
+        $hoy = new DateTime();
+        $fechaAComprobar = new DateTime($fecha);
+        return $fechaAComprobar > $hoy;
+    }
+
     public static function validarDirector($data){
         $errors = [];
 
@@ -75,8 +81,12 @@ class Validator{
             $errors['apellido'] = "El apellido debe tener entre 2 y 50 caracteres";
         }
 
-        if(isset($data['fecha_nacimiento']) && !self::esFormatoFecha($data['fecha_nacimiento'])){
-            $errors['fecha_nacimiento'] = "El formato de la fecha no es válido";
+        if(isset($data['fecha_nacimiento']) && $data['fecha_nacimiento'] !== ''){
+            if(!self::esFormatoFecha($data['fecha_nacimiento'])){
+                $errors['fecha_nacimiento'] = "El formato de la fecha no es válido";
+            }elseif(self::esFechaAnteriorHoy($data['fecha_nacimiento'])){
+                $errors['fecha_nacimiento'] = "La fecha de nacimiento no puede ser futura";
+            }
         }
 
         if(isset($data['biografia']) && strlen($data['biografia']) > 65500){

@@ -32,9 +32,12 @@ form{
     gap: 10px;
     margin-bottom: 20px;
 }
-input[type="text"], input[type="email"]{
+input[type="text"], 
+input[type="email"],
+input[type="date"],
+textarea{
     padding: 5px;
-    width: cal(100% - 12px);
+    width: 100%;
     box-sizing: border-box;
 }
 button{

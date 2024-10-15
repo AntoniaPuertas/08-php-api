@@ -139,6 +139,7 @@ function updateUser(id){
         }
      })
      .catch(error => {
+        console.log(error);
         alert('Error al actualizar al usuario. Por favor, inténtelo de nuevo.');
      });
 }
