@@ -29,8 +29,7 @@ class Director{
         $errors = Validator::validarDirector($dataSaneados);
 
         if(!empty($errors)){
-            $errores = new ValidatorException($errors);
-            return $errores->getErrors();
+            return $errors;
         }
 
         $nombreSaneado = $dataSaneados['nombre'];
@@ -50,8 +49,7 @@ class Director{
         $errors = Validator::validarDirector($dataSaneados);
 
         if(!empty($errors)){
-            $errores = new ValidatorException($errors);
-            return $errores->getErrors();
+            return $errors;
         }
         $nombreSaneado = $dataSaneados['nombre'];
         $apellidoSaneado = $dataSaneados['apellido'];
