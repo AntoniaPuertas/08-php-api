@@ -55,7 +55,7 @@ function getUsers(){
                             <span class="listado">${sanitizedEmail}</span>
                             <input class="edicion" type="email" value="${sanitizedEmail}">
                         </td>
-                        <td>
+                        <td class="td-btn">
                             <button class="listado" onclick="editMode(${user.id})">Editar</button>
                             <button class="listado" onclick="deleteUser(${user.id})">Eliminar</button>
                             <button class="edicion" onclick="updateUser(${user.id})">Guardar</button>
@@ -97,10 +97,10 @@ function createUser(event){
     .then(result => {
         console.log('Usuario creado: ', result);
         if(!esEntero(result['id'])){
-            errorElement.textContent = result['id'];
+            mostrarErrores(result['id']);
+        }else{
+            getUsers();
         }
-        
-        getUsers();
         event.target.reset();
     })
     .catch(error => {
@@ -133,7 +133,7 @@ function updateUser(id){
      .then(result => {
         console.log('Usuario actualizado', result);
         if(!esEntero(result['affected'])){
-            errorElement.innerHTML = result['affected'];
+            mostrarErrores(result['affected']);
         }else{
             getUsers();
         }
@@ -141,6 +141,15 @@ function updateUser(id){
      .catch(error => {
         alert('Error al actualizar al usuario. Por favor, inténtelo de nuevo.');
      });
+}
+
+function mostrarErrores(errores){
+    arrayErrores = Object.values(errores);
+    errorElement.innerHTML = '<ul>';
+    arrayErrores.forEach(error => {
+        return errorElement.innerHTML += `<li>${error}</li>`;
+    });
+    errorElement.innerHTML += '</ul>';
 }
 
 function editMode(id){

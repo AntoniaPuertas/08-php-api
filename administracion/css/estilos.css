@@ -20,6 +20,9 @@ th, td{
     padding: 8px;
     text-align: left;
 }
+.td-btn{
+    text-align: center;
+}
 th{
     background-color: #f2f2f2;
 }
