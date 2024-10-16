@@ -100,9 +100,8 @@ function createDirector(event){
     const fecha_nacimiento = document.getElementById('createFechaNacimiento').value.trim();
     const biografia = document.getElementById('createBiografia').value.trim();
 
-    console.log('nombre', nombre);
     let erroresValidaciones = validaciones(nombre, apellido, fecha_nacimiento, biografia);
-    console.log('erroresValidaciones ', erroresValidaciones.length);
+
     if(erroresValidaciones.length > 0){
         mostrarErrores(erroresValidaciones);
         return;

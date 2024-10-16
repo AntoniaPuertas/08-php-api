@@ -45,7 +45,7 @@ class Validator{
         if(!isset($data['precio']) || empty(trim($data['precio']))){
             $errors['precio'] = "El precio es necesario";
         }elseif($data['precio'] < 0){
-            $errors['precio'] = "El precio debe ser mayor que 0";
+            $errors['precio'] = "El precio debe ser mayor o igual a 0";
         }
 
         if(!isset($data['id_director']) || empty(trim($data['id_director']))){

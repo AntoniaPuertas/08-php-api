@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Películas</title>
+    <link rel="stylesheet" href="css/estilos.css">
+</head>
+<body>
+    <h2>Crear Película</h2>
+    <form id="createForm">
+        <input type="text" id="createTitulo" placeholder="Título" required>
+        <input type="number" id="createPrecio"  placeholder="Precio" required>
+        <select name="directores" id="seleccionaDirector"></select>
+        <button type="submit">Crear Película</button>
+        <div id="createError" class="error"></div>
+    </form>
+
+    <h2>Películas</h2>
+    <table id="peliculasTable">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Precio</th>
+                <th>Director</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+    <script src="js/adminPeliculas.js"></script>
+</body>
+</html>
