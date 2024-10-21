@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost/08-php-api/controllers/directores.php';
+const API_URL = 'https://antoniapuertas.com/08-php-api/controllers/directores.php';
 const errorElement = document.getElementById('createError');
 /**
  * 
@@ -110,7 +110,7 @@ function createDirector(event){
     errorElement.innerHTML = '';
 
     //envio al controlador los datos
-    fetch(API_URL, {
+    fetch(`${API_URL}?metodo=nuevo`, {
         method: 'POST',
         headers: {
             'Content-Type' : 'application/json',
@@ -149,8 +149,8 @@ function updateDirector(id){
     }
     errorElement.innerHTML = '';
 
-    fetch(`${API_URL}?id=${id}`, {
-        method: 'PUT',
+    fetch(`${API_URL}?id=${id}&metodo=actualizar`, {
+        method: 'POST',
         headers: {
             'Content-Type' : 'application/json',
         },
@@ -201,8 +201,8 @@ function cancelEdit(id){
 }
 function deleteDirector(id){
     if(confirm('¿Estás seguro de que quieres eliminar este director?')){
-       fetch(`${API_URL}?id=${id}`, {
-            method: 'DELETE',
+       fetch(`${API_URL}?id=${id}&metodo=eliminar`, {
+            method: 'POST',
        })
        .then(response => response.json())
        .then(result => {
