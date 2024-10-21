@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost/08-php-api/controllers/usuarios.php';
+const API_URL = 'https://antoniapuertas.com/08-php-api/controllers/usuarios.php';
 const errorElement = document.getElementById('createError');
 /**
  * 
@@ -86,7 +86,7 @@ function createUser(event){
     errorElement.textContent = '';
 
     //envio al controlador los datos
-    fetch(API_URL, {
+    fetch(`${API_URL}?metodo=nuevo`, {
         method: 'POST',
         headers: {
             'Content-Type' : 'application/json',
@@ -123,8 +123,8 @@ function updateUser(id){
         return;
     }
 
-    fetch(`${API_URL}?id=${id}`, {
-        method: 'PUT',
+    fetch(`${API_URL}?id=${id}&metodo=actualizar`, {
+        method: 'POST',
         headers: {
             'Content-Type' : 'application/json',
         },
@@ -173,8 +173,8 @@ function cancelEdit(id){
 }
 function deleteUser(id){
     if(confirm('¿Estás seguro de que quieres eliminar este usuario?')){
-       fetch(`${API_URL}?id=${id}`, {
-            method: 'DELETE',
+       fetch(`${API_URL}?id=${id}&metodo=eliminar`, {
+            method: 'POST',
        })
        .then(response => response.json())
        .then(result => {

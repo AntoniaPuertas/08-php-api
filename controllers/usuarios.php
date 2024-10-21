@@ -32,6 +32,7 @@ require_once 'utilidades.php';
 
   //obtener el parámetro id
   $id = Utilidades::getParameterValue($parametros, 'id');
+  $metodo = Utilidades::getParameterValue($parametros, 'metodo');
   
   switch($method){
     case 'GET':
@@ -43,22 +44,24 @@ require_once 'utilidades.php';
         echo json_encode($respuesta);
         break;
     case 'POST':
-        setUser($usuario);
-        break;
-    case 'PUT':
-        if($id){
-          updateUser($usuario, $id);
-        }else{
-          http_response_code(400);
-          echo json_encode(['error' => 'ID no proporcionado']);
+        if($metodo == 'nuevo'){
+          setUser($usuario);
         }
-        break;
-    case 'DELETE':
-        if($id){
-          deleteUser($usuario, $id);
-        }else{
-          http_response_code(400);
-          echo json_encode(['error' => 'ID no proporcionado']);
+        if($metodo == 'actualizar'){
+          if($id){
+            updateUser($usuario, $id);
+          }else{
+            http_response_code(400);
+            echo json_encode(['error' => 'ID no proporcionado']);
+          }
+        }
+        if($metodo == 'eliminar'){
+          if($id){
+            deleteUser($usuario, $id);
+          }else{
+            http_response_code(400);
+            echo json_encode(['error' => 'ID no proporcionado']);
+          }
         }
         break;
     default:
