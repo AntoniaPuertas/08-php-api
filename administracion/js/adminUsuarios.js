@@ -1,4 +1,5 @@
-const API_URL = 'https://antoniapuertas.com/08-php-api/controllers/usuarios.php';
+const API_URL = '../controllers/usuarios.php';
+// const API_URL = 'https://antoniapuertas.com/08-php-api/controllers/usuarios.php';
 const errorElement = document.getElementById('createError');
 /**
  * 

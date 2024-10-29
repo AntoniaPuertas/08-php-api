@@ -1,5 +1,7 @@
-const API_URL_PELICULAS = 'https://antoniapuertas.com/08-php-api/controllers/peliculas.php';
-const API_URL_DIRECTORES = 'https://antoniapuertas.com/08-php-api/controllers/directores.php';
+const API_URL_PELICULAS = '../controllers/peliculas.php';
+const API_URL_DIRECTORES = '../controllers/directores.php';
+// const API_URL_PELICULAS = 'https://antoniapuertas.com/08-php-api/controllers/peliculas.php';
+// const API_URL_DIRECTORES = 'https://antoniapuertas.com/08-php-api/controllers/directores.php';
 const errorElement = document.getElementById('createError');
 let listaDirectores = [];
 

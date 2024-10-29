@@ -1,4 +1,5 @@
-const url = "https://antoniapuertas.com/08-php-api/controllers/peliculas.php";
+const url = "../controllers/peliculas.php";
+// const url = "https://antoniapuertas.com/08-php-api/controllers/peliculas.php";
 let contenedor = document.getElementById('container');
 
 
